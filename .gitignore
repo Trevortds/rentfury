@@ -1,5 +1,6 @@
 environment.yml
-
+static_cdn/
+static_cdn/**
 
 # Created by https://www.gitignore.io/api/django,python,intellij+all
 # Edit at https://www.gitignore.io/?templates=django,python,intellij+all
