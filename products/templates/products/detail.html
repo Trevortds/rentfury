@@ -1,14 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ object.title }}</title>
-</head>
-<body>
-{{ object.title }} <br>
-{{ object.description }} <br>
-{% if object.image %}
-<img src="{{ object.image.url }}" class="img-fluid">
-{% endif %}
+{% extends "base.html" %}
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3>{{ object.title }} </h3> <br>
+                {% if object.image %}
+                    <img src="{{ object.image.url }}" class="img-fluid">
+                {% endif %}
+                {{ object.description|linebreaks }} <br>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
 </body>
 </html>

@@ -10,10 +10,11 @@ class ProductListView(ListView):
     # queryset = Product.objects.all()
     template_name = "products/list.html"
 
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super(ProductListView, self).get_context_data(*args, **kwargs)
-    #     print(context)
-    #     return context
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProductListView, self).get_context_data(*args, **kwargs)
+        context["title"] = "Product List"
+        # print(context)
+        return context
     def get_queryset(self, *args, **kwargs):
         request = self.request
         return Product.objects.all()
@@ -51,7 +52,8 @@ class ProductDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
-        print(context)
+
+        # print(context)
         return context
 
     def get_object(self, *args, **kwargs):
@@ -62,7 +64,7 @@ class ProductDetailView(DetailView):
 
         if prod_object is None:
             raise Http404("Product does not exist")
-
+        self.extra_context["title"] = prod_object.title
         return prod_object
 
 
@@ -88,6 +90,7 @@ class ProductDetailSlugView(DetailView):
         if prod_object is None:
             raise Http404("Product does not exist")
 
+        self.extra_context = {"title" : prod_object.title}
         return prod_object
 
 

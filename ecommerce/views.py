@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, login, get_user_model, logout
 from .forms import ContactForm, LoginForm, RegisterForm
 
 
@@ -22,6 +22,10 @@ def about_page(request):
         "content": "this is an about page"
     }
     return render(request, "index.html", context)
+
+def logout_page(request):
+    logout(request)
+    return redirect("/")
 
 
 def contact_page(request):
@@ -79,5 +83,7 @@ def register_page(request):
         email = form.cleaned_data.get("email")
         new_user = User.objects.create_user(username, email, password)
         print(new_user)
+        login(request, new_user)
+        return redirect("/")
     return render(request, "auth/register.html", context)
 
