@@ -20,13 +20,7 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
 from .views import home_page, about_page, contact_page, login_page, register_page, logout_page
-# from products.views import (product_list_view,
-#                             ProductListView,
-#                             ProductDetailView,
-#                             product_detail_view,
-#                             ProductFeaturedDetailView,
-#                             ProductFeaturedListView,
-#                             ProductDetailSlugView)
+from carts.views import cart_home
 
 urlpatterns = [
     path('', home_page, name="home"),
@@ -35,6 +29,7 @@ urlpatterns = [
     path('logout/', logout_page, name="logout"),
     path('register/', register_page, name="register"),
     path('admin/', admin.site.urls, name="admin"),
+    path('cart/', cart_home, name="cart"),
     path('bootstrap/', TemplateView.as_view(template_name="bootstrap/example.html")),
     path('product/', include(("products.urls", "products"), namespace="products"))
     # path('products/', ProductListView.as_view()),
