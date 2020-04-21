@@ -29,9 +29,9 @@ urlpatterns = [
     path('logout/', logout_page, name="logout"),
     path('register/', register_page, name="register"),
     path('admin/', admin.site.urls, name="admin"),
-    path('cart/', cart_home, name="cart"),
     path('bootstrap/', TemplateView.as_view(template_name="bootstrap/example.html")),
-    path('product/', include(("products.urls", "products"), namespace="products"))
+    path('products/', include(("products.urls", "products"), namespace="products")),
+    path('cart/', include(("carts.urls", "carts"), namespace="cart")),
     # path('products/', ProductListView.as_view()),
     # path('featured/', ProductFeaturedListView.as_view()),
     # path('featured/<int:pk>', ProductFeaturedDetailView.as_view()),
