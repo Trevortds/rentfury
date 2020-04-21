@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 from .views import home_page, about_page, contact_page, login_page, register_page, logout_page
 # from products.views import (product_list_view,
@@ -34,6 +35,7 @@ urlpatterns = [
     path('logout/', logout_page, name="logout"),
     path('register/', register_page, name="register"),
     path('admin/', admin.site.urls, name="admin"),
+    path('bootstrap/', TemplateView.as_view(template_name="bootstrap/example.html")),
     path('product/', include(("products.urls", "products"), namespace="products"))
     # path('products/', ProductListView.as_view()),
     # path('featured/', ProductFeaturedListView.as_view()),
