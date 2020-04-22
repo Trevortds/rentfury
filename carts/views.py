@@ -6,7 +6,6 @@ from accounts.forms import LoginForm, GuestForm
 from accounts.models import GuestEmail
 #
 from addresses.forms import AddressForm
-# from addresses.models import Address
 #
 from addresses.models import Address
 from billing.models import BillingProfile
@@ -14,11 +13,10 @@ from orders.models import Order
 from products.models import Product
 from .models import Cart
 
-
-# # import stripe
-# STRIPE_SECRET_KEY = getattr(settings, "STRIPE_SECRET_KEY", "sk_test_cu1lQmcg1OLffhLvYrSCp5XE")
-# STRIPE_PUB_KEY =  getattr(settings, "STRIPE_PUB_KEY", 'pk_test_PrV61avxnHaWIYZEeiYTTVMZ')
-# stripe.api_key = STRIPE_SECRET_KEY
+import stripe
+STRIPE_SECRET_KEY = getattr(settings, "STRIPE_SECRET_KEY", "sk_test_qv0vYPHZYXdty8jw31ELn9oS00C76oYLNj")
+STRIPE_PUB_KEY =  getattr(settings, "STRIPE_PUB_KEY", 'pk_test_D5cmBFDplcJVrEG6HOsknjQj00e3oKBgrt')
+stripe.api_key = STRIPE_SECRET_KEY
 
 def cart_detail_api_view(request):
     cart_obj, new_obj = Cart.objects.new_or_get(request)
@@ -82,11 +80,13 @@ def checkout_home(request):
     login_form = LoginForm()
     guest_form = GuestForm()
     address_form = AddressForm()
+    address_qs = None
     print(dict(request.session))
     billing_address_id = request.session.get("billing_address_id", None)
     shipping_address_id = request.session.get("shipping_address_id", None)
     billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
-
+    has_card = False
+    intent = None
     if billing_profile is not None:
         if request.user.is_authenticated:
             address_qs = Address.objects.filter(billing_profile=billing_profile)
@@ -100,15 +100,29 @@ def checkout_home(request):
             del request.session["billing_address_id"]
         if billing_address_id or shipping_address_id:
             order_obj.save()
+        has_card = billing_profile.has_card
+        if not has_card:
+            intent = stripe.SetupIntent.create(
+                customer=billing_profile.customer_id,
+                usage='off_session',
+            )
+
 
         if request.method == "POST":
             # check that order is done
-            is_done = order_obj.check_done()
-            if is_done:
-                order_obj.mark_paid()
-                request.session["cart_items"] = 0
-                del request.session["cart_id"]
-                return redirect("cart:success")
+            is_prepared = order_obj.check_done()
+            if is_prepared:
+                did_charge, chg_msg = billing_profile.charge(order_obj)
+                if did_charge:
+                    order_obj.mark_paid()
+                    request.session["cart_items"] = 0
+                    del request.session["cart_id"]
+                    if not billing_profile.user:
+                        billing_profile.set_cards_inactive()
+                    return redirect("cart:success")
+                else:
+                    print(chg_msg)
+                    redirect("cart:checkout")
 
     context ={
         "object": order_obj,
@@ -117,7 +131,11 @@ def checkout_home(request):
         "guest_form": guest_form,
         "address_form": address_form,
         "address_qs": address_qs,
+        "has_card": has_card,
+        "publish_key": STRIPE_PUB_KEY,
+        "client_secret": intent.client_secret if intent else None
     }
+
     return render(request, "carts/checkout.html", context)
 # def checkout_home(request):
 #     cart_obj, cart_created = Cart.objects.new_or_get(request)

@@ -2,3 +2,9 @@
     border-right: 1px solid #ccc;
     padding-right: 10px;
 }
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}

@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <div class="col-10 col-md-6 mx-auto">
+        <h1>Add Payment Method</h1>
+        <form class="payment-form" id="payment-form" data-token="{{ publish_key }}" client_secret="{{ client_secret }}"
+              {% if next_url %}data-next-url="{{ next_url }}"{% endif %}>
+            <input id='client-secret-input' type="hidden" name="client_secret" value="{{ client_secret }}">
+
+            <div id="card-element" class="form-control">
+                <!-- Elements will create input elements here -->
+            </div>
+
+            <!-- We'll put the error messages in this element -->
+            <div id="card-errors" role="alert"></div>
+
+            <button id="submit" class="btn btn-primary my-3">Submit payment method</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script>
+        // Set your publishable key: remember to change this to your live publishable key in production
+        // See your keys here: https://dashboard.stripe.com/account/apikeys
+        var paymentForm = $(".payment-form");
+        if (paymentForm.length > 1) {
+            alert("only one payment form per page");
+            paymentForm.css("display", 'none');
+        }
+        else if (paymentForm.length === 1) {
+            var pubKey = paymentForm.attr('data-token');
+            var nextUrl = paymentForm.attr('data-next-url')
+            console.log(pubKey)
+
+
+            var stripe = Stripe(pubKey);
+            var elements = stripe.elements();
+
+
+            // Set up Stripe.js and Elements to use in checkout form
+            var style = {
+                base: {
+                    color: "#32325d",
+                }
+            };
+
+            var card = elements.create("card", {style: style});
+            card.mount("#card-element");
+
+            card.addEventListener('change', ({error}) => {
+                const displayError = document.getElementById('card-errors');
+                if (error) {
+                    displayError.textContent = error.message;
+                } else {
+                    displayError.textContent = '';
+                }
+            });
+
+            var form = document.getElementById('payment-form');
+
+            form.addEventListener('submit', function (ev) {
+                ev.preventDefault();
+                var clientSecret = document.getElementById('client-secret-input').value
+                stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: card,
+                        billing_details: {
+                            name: 'Jenny Rosen'
+                        }
+                    }
+                }).then(function (result) {
+                    if (result.error) {
+                        // Show error to your customer (e.g., insufficient funds)
+                        // TODO put result.error in card-errors div, and make it an alert
+                        console.log(result.error.message);
+                        console.log(result.error)
+                    } else {
+                        // The payment has been processed!
+                        if (result.paymentIntent.status === 'succeeded') {
+                            console.log(result);
+                            console.log(result.paymentIntent);
+                            console.log(result.paymentIntent.status);
+                            var paymentMethodEndpoint = "{%  url 'billing-payment-method-endpoint' %}"
+                            var data = {
+                                'paymentIntent': result.paymentIntent
+                            }
+                            $.ajax({
+                                data: data,
+                                url: paymentMethodEndpoint,
+                                method: "POST",
+                                success: function(data){
+                                    console.log(data)
+                                    if (nextUrl) {
+                                        console.log(nextUrl)
+                                        window.location.href = nextUrl;
+                                    } else{
+                                        window.location.reload();
+                                    }
+                                },
+                                error: function(error){
+                                    console.log(error);
+                                }
+                            });
+                            // Show a success message to your customer
+                            // There's a risk of the customer closing the window before callback
+                            // execution. Set up a webhook or plugin to listen for the
+                            // payment_intent.succeeded event that handles any business critical
+                            // post-payment actions.
+                        }
+                    }
+                });
+            });
+        }
+
+    </script>
+{% endblock %}

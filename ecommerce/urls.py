@@ -23,6 +23,7 @@ from django.views.generic import TemplateView
 from .views import home_page, about_page, contact_page
 from accounts.views import login_page, logout_page, register_page, guest_register_view
 from addresses.views import checkout_address_create_view, checkout_address_reuse_view
+from billing.views import payment_method_view, payment_method_createview
 from carts.views import cart_home
 
 urlpatterns = [
@@ -32,6 +33,8 @@ urlpatterns = [
     path('checkout/address/reuse/', checkout_address_reuse_view, name="checkout_address_reuse"),
     path('login/', login_page, name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),
+    path('billing/payment-method/', payment_method_view, name="billing-payment-method"),
+    path('billing/payment-method/create/', payment_method_createview, name="billing-payment-method-endpoint"),
     path('register/', register_page, name="register"),
     path('register/guest/', guest_register_view, name="guest_register"),
     path('admin/', admin.site.urls, name="admin"),

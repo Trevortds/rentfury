@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'carts',
 ]
 
+STRIPE_SECRET_KEY = "sk_test_qv0vYPHZYXdty8jw31ELn9oS00C76oYLNj"
+STRIPE_PUB_KEY = "pk_test_D5cmBFDplcJVrEG6HOsknjQj00e3oKBgrt"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

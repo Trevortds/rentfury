@@ -55,18 +55,28 @@
                 </div>
             </div>
         {% else %}
-            <h1>Finalize Checkout</h1>
-            <p>Cart Items: {% for product in object.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-            <p>Shipping Address: {{ object.shipping_address.get_address }}</p>
-            <p>Billing Address: {{ object.billing_address.get_address }}</p>
-            <p>Payment Method: {{ billing_profile.default_card }} (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Change</a>)</p>
-            <p>Cart Total: {{ object.cart.total }}</p>
-            <p>Shipping Total: {{ object.shipping_total }}</p>
-            <p>Order Total: {{ object.total }}</p>
 
-            <form class='form' method='POST' action="">{% csrf_token %}
-                <button type='submit' class='btn btn-success'>Checkout</button>
-            </form>
+            {% if not has_card %}
+                <!-- enter credit card here -->
+{#                <div class='stripe-payment-form' data-token='{{ publish_key }}' data-next-url='{{ request.build_absolute_uri }}' data-btn-title='Add Payment Method'></div>#}
+                <div class="stripe-payment-form" id="setup-form" data-secret="{{ client_secret }}" data-token="{{ publish_key }}"
+                     data-next-url="{{ request.build_absolute_uri }}" data-endpoint="{% url 'billing-payment-method-endpoint' %}"
+                     data-btn-title="Add New Card"></div>
+            {% else %}
+
+                <h1>Finalize Checkout</h1>
+                <p>Cart Items: {% for product in object.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                <p>Shipping Address: {{ object.shipping_address.get_address }}</p>
+                <p>Billing Address: {{ object.billing_address.get_address }}</p>
+                <p>Payment Method: {{ billing_profile.default_card }} (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Change</a>)</p>
+                <p>Cart Total: {{ object.cart.total }}</p>
+                <p>Shipping Total: {{ object.shipping_total }}</p>
+                <p>Order Total: {{ object.total }}</p>
+
+                <form class='form' method='POST' action="">{% csrf_token %}
+                    <button type='submit' class='btn btn-success'>Checkout</button>
+                </form>
+            {% endif %}
         {% endif %}
     {% endif %}
 {% endblock %}
