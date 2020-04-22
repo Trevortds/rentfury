@@ -17,17 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import LogoutView
 from django.views.generic import TemplateView
 
-from .views import home_page, about_page, contact_page, login_page, register_page, logout_page
+from .views import home_page, about_page, contact_page
+from accounts.views import login_page, logout_page, register_page, guest_register_view
 from carts.views import cart_home
 
 urlpatterns = [
     path('', home_page, name="home"),
     path('contact/', contact_page, name="contact"),
     path('login/', login_page, name="login"),
-    path('logout/', logout_page, name="logout"),
+    path('logout/', LogoutView.as_view(), name="logout"),
     path('register/', register_page, name="register"),
+    path('register/guest/', guest_register_view, name="guest_register"),
     path('admin/', admin.site.urls, name="admin"),
     path('bootstrap/', TemplateView.as_view(template_name="bootstrap/example.html")),
     path('products/', include(("products.urls", "products"), namespace="products")),
