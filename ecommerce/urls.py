@@ -22,11 +22,14 @@ from django.views.generic import TemplateView
 
 from .views import home_page, about_page, contact_page
 from accounts.views import login_page, logout_page, register_page, guest_register_view
+from addresses.views import checkout_address_create_view, checkout_address_reuse_view
 from carts.views import cart_home
 
 urlpatterns = [
     path('', home_page, name="home"),
     path('contact/', contact_page, name="contact"),
+    path('checkout/address/create/', checkout_address_create_view, name="checkout_address_create"),
+    path('checkout/address/reuse/', checkout_address_reuse_view, name="checkout_address_reuse"),
     path('login/', login_page, name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),
     path('register/', register_page, name="register"),
