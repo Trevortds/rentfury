@@ -7,11 +7,11 @@ from .forms import ContactForm
 
 def home_page(request):
     context = {
-        "title": "Hello, Trevor!",
+        "title": "Our Equipment Rental Website!",
         "content": "welcome to the homepage!",
     }
     if request.user.is_authenticated:
-        context["premium_content"] = "Fuck Yeah!"
+        context["premium_content"] = "Woohoo, you're a very special user!"
     return render(request, "index.html", context)
 
 
@@ -27,8 +27,11 @@ def about_page(request):
 def contact_page(request):
     contact_form = ContactForm(request.POST or None)
     context = {
-        "title": "Contact Page!",
-        "content": "this certainly is a contact page!",
+        "title": "Contact Us",
+        "content": """
+        This is our contact page, please fill out the form below to email us about any issues you have.
+         We will respond by email shortly
+         """,
         "form": contact_form
     }
     if contact_form.is_valid():

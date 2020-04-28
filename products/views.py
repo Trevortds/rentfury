@@ -98,6 +98,9 @@ class ProductDetailSlugView(DetailView):
         if prod_object is None:
             raise Http404("Product does not exist")
 
+        if slug in ["kelvi"]:
+            self.template_name = "products/kelvi-detail.html"
+
         self.extra_context = {"title" : prod_object.title}
         return prod_object
 

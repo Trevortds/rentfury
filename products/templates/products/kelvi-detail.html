@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<div class="row">
+<div class="col-9 mx-auto">
+
+    <div class="row">
+        <div class="col">
+{#            {{ object }}#}
+{#            Kelvi Kelvi Kelvi!#}
+{#            <h3>{{ object.title }} </h3> <br>#}
+{#            {% if object.image %}#}
+{#                <img src="{{ object.image.url }}" class="img-fluid">#}
+{#            {% endif %}#}
+{#            {{ object.description|linebreaks }} <br>#}
+            <h2 class="text-center">KelviTEC</h2>
+            <p class="lead text-center">
+                Cryo/thermotherapy technology that is both evolutionary and revolutionary.
+            </p>
+            <div class="text-center">
+                <img src="{{ object.image.url }}" class="img-fluid rounded mx-auto">
+            </div>
+
+            <blockquote class="blockquote text-lg-center">
+              <p class="mb-0">
+                Underlying Kelvi’s patented technology is simple observation. The technology used for cooling and
+                  heating in athletic training rooms and medical settings hasn’t fundamentally changed in more than 150
+                  years. Therapeutic modalities are still fundamentally based on ice, mechanical refrigeration and
+                  resistive heating. KelviTec technology still applies the well-understood principles of heating and
+                  cooling for medical applications and athletic recovery. But it brings unprecedented convenience for
+                  athletes, athletic trainers and medical technicians, coupled with high precision, tight temperature
+                  control, trackability and repeatability.
+              </p>
+            </blockquote>
+            <div class="row">
+                <div class="col-md-5">
+                    <img src="{% static 'img/KT-1_190215_Kelvi1063.jpg' %}" class="img-fluid rounded mx-auto">
+                </div>
+                <div class="col-md-7">
+                    <h3 class="text-info">Semiconductor-Based</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            Leverages the properties of a special class of semiconductor devices
+                            that add or extract heat
+                        </li>
+                        <li class="list-group-item">
+                            Embeds the semiconductor devices in an array, inside a patented,
+                            flexible wrap that modulates heating and cooling directly at the point of skin contact –
+                            as opposed to dated technologies that heat and cool indirectly using circulated water
+                        </li>
+                        <li class="list-group-item">
+                            Modulates and maintains temperature by measuring actual skin temperature at the
+                            point of contact with the wrap
+                        </li>
+                    </ul>
+                </div>
+            </div><div class="row">
+                <div class="col-md-5">
+                    <img src="{% static 'img/KT-2_190215_Kelvi0362.jpg' %}" class="img-fluid rounded mx-auto">
+                </div>
+                <div class="col-md-7">
+                    <h3 class="text-info">Internet Connected</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            Controls heating and cooling at the wrap via a console that also
+                            functions as an “Internet of Things” (IoT) device
+                        </li>
+                        <li class="list-group-item">
+                            Interfaces with a mobile-connected smartphone app for programming
+                            therapies and monitoring and verifying athlete and patient compliance
+                        </li>
+                        <li class="list-group-item">
+                            Allows athletes and patients to perform their own therapy at home or on the road,
+                            without sacrificing medical supervision
+                        </li>
+                    </ul>
+                </div>
+            </div><div class="row">
+                <div class="col-md-5">
+                    <img src="{% static 'img/KT-3_190215_Kelvi0574.jpg' %}" class="img-fluid rounded mx-auto">
+                </div>
+                <div class="col-md-7">
+                    <h3 class="text-info">Data Driven</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            Allows precise programming of heating and cooling over time,
+                            for preprogramming therapies including new contrast therapies
+                        </li>
+                        <li class="list-group-item">
+                            Measures and controls temperature at point of skin contact,
+                            allowing more-sustained therapies without risk of tissue freezing or burning
+                        </li>
+                        <li class="list-group-item">
+                            Archives treatment history, allowing athletic trainers and medical professionals to map
+                            history to treatment results and scientifically refine therapies over time.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-3 ml-auto">
+            <p class="lead">Rent now!</p>
+            <p class="text-info">$299.99/mo</p>
+{#            TODO: make this price field responsive#}
+            {% include 'products/snippets/update-cart.html' with product=object cart=cart %}
+            {#                {{ cart }}#}
+
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

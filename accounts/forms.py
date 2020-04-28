@@ -5,24 +5,65 @@ User = get_user_model()
 
 
 class GuestForm(forms.Form):
-    email = forms.EmailField()
+    email = forms.EmailField(widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Email",
+                "id": "form_full_name",
+                }
+        ))
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
+    username = forms.CharField(widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Username",
+                "id": "form_full_name",
+                }
+        )
+    )
     password = forms.CharField(
-        widget=forms.PasswordInput()
+        widget=forms.PasswordInput(attrs={
+                "class": "form-control",
+                "placeholder": "Password",
+                "id": "form_full_name",
+                }
+        )
     )
 
 
 class RegisterForm(forms.Form):
-    username = forms.CharField()
-    email = forms.EmailField(
+    username = forms.CharField(widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Username",
+                "id": "form_full_name",
+                }
+        )
+    )
+
+    email = forms.EmailField(widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Email",
+                "id": "form_full_name",
+                }
+        )
     )
     password = forms.CharField(
-        widget=forms.PasswordInput()
+        widget=forms.PasswordInput(attrs={
+                "class": "form-control",
+                "placeholder": "Password",
+                "id": "form_full_name",
+                })
     )
-    password2 = forms.CharField(label="Confirm Password", widget=forms.PasswordInput())
+    password2 = forms.CharField(label="Confirm Password", widget=forms.PasswordInput(attrs={
+                "class": "form-control",
+                "placeholder": "Password",
+                "id": "form_full_name",
+                }
+    ))
 
     def clean_username(self):
         username = self.cleaned_data.get("username")

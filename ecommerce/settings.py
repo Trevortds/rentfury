@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # my apps
+    'crispy_forms',
     'orders',
     'accounts',
     'billing',
@@ -45,6 +46,8 @@ INSTALLED_APPS = [
     'products',
     'carts',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STRIPE_SECRET_KEY = "sk_test_qv0vYPHZYXdty8jw31ELn9oS00C76oYLNj"
 STRIPE_PUB_KEY = "pk_test_D5cmBFDplcJVrEG6HOsknjQj00e3oKBgrt"

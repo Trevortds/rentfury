@@ -4,12 +4,13 @@
 {% url 'logout' as logout_url%}
 {% url 'register' as register_url%}
 {% url 'products:list' as products_url%}
-{% url 'products:detail' slug='gameready' as gr_url%}
+{% url 'products:detail' slug='kelvi' as kelvi_url%}
 {% url 'cart:home' as cart_url%}
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+{#<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">#}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
     <div class="container">
-    <a class="navbar-brand" href="#"> {% if brand_name %} {{ brand_name }}{% else %}Ecommerce{% endif %}</a>
+    <a class="navbar-brand" href="{{ home_url }}"> {% if brand_name %} {{ brand_name }}{% else %}RentFury{% endif %}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -26,11 +27,11 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Products
                 </a>
-                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" style="color:#fff" href="{{ products_url }}">All products</a>
-                    <a class="dropdown-item" style="color:#fff" href="{{ gr_url }}">GameReady</a>
-                    <div class="dropdown-divider" style="border-top: 1px solid #999"></div>
-                    <a class="dropdown-item" style="color:#fff" href="#">Something else here</a>
+                <div class="dropdown-menu bg-primary" aria-labelledby="navbarDropdown">
+{#                    <a class="dropdown-item" style="color:#fff" href="{{ products_url }}">All products</a>#}
+                    <a class="dropdown-item" style="color:#fff" href="{{ kelvi_url }}">Kelvi</a>
+{#                    <div class="dropdown-divider" style="border-top: 1px solid #999"></div>#}
+{#                    <a class="dropdown-item" style="color:#fff" href="#">Something else here</a>#}
                 </div>
             </li>
 {#            <li class="nav-item">#}

@@ -107,6 +107,7 @@ class CardManager(models.Manager):
         else:
             return None
 
+# TODO
 class Card(models.Model):
     billing_profile = models.ForeignKey(BillingProfile, on_delete=models.PROTECT)
     stripe_id = models.CharField(max_length=120)
