@@ -107,7 +107,10 @@ class CardManager(models.Manager):
         else:
             return None
 
-# TODO
+# TODO cross-reference with address
+# TODO get pic of drivers license
+# TODO shipment tracking
+# TODO separate accounts for
 class Card(models.Model):
     billing_profile = models.ForeignKey(BillingProfile, on_delete=models.PROTECT)
     stripe_id = models.CharField(max_length=120)
