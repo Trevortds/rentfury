@@ -25,7 +25,7 @@ SECRET_KEY = '%k*@+_pc54-n=$23kc&4wbzu4bw_431i^5r*x*q8_cx!2p%s8_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["rent-demo.trevor-sullivan.tech"]
 
 
 # Application definition
